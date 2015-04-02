@@ -63,6 +63,7 @@ sql> variable g_sal Number
 >print g_sal
 Here instead of simple g_sal , we have used colon g_sal. The salary is stored into the g_sal variable.
 
+the g_sql is host variable.
 
 
 

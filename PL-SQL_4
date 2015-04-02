@@ -36,14 +36,32 @@ Declare
       a number,           -- i declare v_rec of that data type.
       b varchar2(10)) ;
   v_rec rec;     
+  
+  emp_rec emp%RowType;  -- here it is of a table row type emp_rec is of table row type.
+  
+  -- emp_rec contains multiple elements , name, job, salary etc .. it is a composite datatype of reference type.
+  -- we don't know type of emp_rec at cmpile time.
     BEGIN
-    v_rec.a:=10;
+    v_rec.a:=10; -- how to access?? is variable v_rec.element_name
     emp_rec.sal:=90;
   end;
 
 The composite datatype gives flexibility of using the datatypes we can use.
-
-
+-------
+Host data type.
+we show using the command prompt
+SQL>conn scott/tiger
+here we dclare a variable
+sql> variable g_sal Number
+> begin
+  select sal
+  into :g_sal -- colon g_sal 
+  from emp
+  where emp_no=7369;
+  end
+/
+>print g_sal
+Here instead of simple g_sal , we have used colon g_sal. The salary is stored into the g_sal variable.
 
 
 

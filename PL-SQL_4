@@ -1,0 +1,26 @@
+PLS-4: PL/SQL Variables
+https://www.youtube.com/watch?v=SS4pQAAabHo
+
+Variables are used to 
+store temporary data   a:=5+10
+manipulation of stored values a:=a*5;
+reusability    a=5 then later point a=10 
+ease of maintenance - program is very easy to reand and maintain.
+
+Types or variables :
+1.PL/sql variables  4 types
+scalar - we can store one data at  a time. you tell me what data it is , number, date, varchar, int ..
+composite - i can store multiple things in one data, it is like a structure in C.(5,'xyz' you can store)
+reference - we do not know what kind of varible is this in compile time.we attach it to a table column type.At run time we will get what is the column type.
+LOB(large object) - we can store unstructure data, lot of support for unstructure data
+
+Now some times , we call pl/sql pgm from another language like in c, java,perl etc. This language is called HOST language.
+we can pass the variable to pl/sql these variables called Bind/Host variable.
+
+2.non pl/sql variables
+-Bind variables
+-Host variables
+-----------------------------------------
+Number, boolean , constant number(3,2), assignment operator :=, VARCHAR2
+constant value never changes during the program execution.
+done:=(counter=1) here it is not double equlato for comparision. it is single equal to for comparision.

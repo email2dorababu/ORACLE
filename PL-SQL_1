@@ -3,3 +3,26 @@ https://www.youtube.com/watch?v=Lvrwsv-Rj1o
 Oresoft LWC channel
 Reading the PLS series
 This video is PLS-1.
+
+Procedural constructs+ SQl statements =pl/sql propritary to Oracle.
+PL/SQL is not ANSI.
+contains variables, loops, if,while, and complicated DS support.
+
+BLOCKS:
+Declare
+begin
+exception
+end
+PL/SQL engine or compiler takes the PL/sql block and separate PL part is going to procedural statement executor and sql statements goes to sql statement executor in the oracle server. 
+once the sql part is executed, the pl/sql engine integrates both and the program will be complete.
+
+PL/sql engine can be in client side, then the pl parts executed in client and sql parts executed in server.
+and other scenario is everything is happens in database. i.e pl and sql executors are in server.
+
+PL/SQL: 
+1. Ability to do real life scenario
+2. tight integration with SQL - i.e do not need to translate sql to pl data types.
+this saves both learnig and processing time.
+And the type variables(ex pl varable -  abc emp%sal) the column type data type is assigned to abc in runtime.
+3 Full portability i.e windows & linux the same program works on both , no modifications required. pgm runs on any platform without changes.
+4. Access to predefined packages. - to increase developer productivity oracle have predefined packages. example : dbms

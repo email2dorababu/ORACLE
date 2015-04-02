@@ -25,4 +25,26 @@ PL/SQL:
 this saves both learnig and processing time.
 And the type variables(ex pl varable -  abc emp%sal) the column type data type is assigned to abc in runtime.
 3 Full portability i.e windows & linux the same program works on both , no modifications required. pgm runs on any platform without changes.
-4. Access to predefined packages. - to increase developer productivity oracle have predefined packages. example : dbms
+4. Access to predefined packages. - to increase developer productivity oracle have predefined packages. example : dbms_LOB gives all the pkgs and functions,procs required to write multimedia application. image and file processing
+utl_http: makes lot of web based application development easy.
+5. Tight security: you can write the stored programs inside database and you can have user access/controls availabl for other objects. You can use the oracle security management.
+6.Better performance - the sql goes from client to server one by one(many stmts many times many trips)- i.e network time is going to be consumed.
+the pl/sql block is transported once in the server, only one round trip.
+7.rapid web application development. Oralce APEX- application express you can complete the web 2.0 application development less than 10 mins.(high sec, with logins) etc. Apex libraries. apex developemnt tool kit.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

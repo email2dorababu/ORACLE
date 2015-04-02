@@ -1,0 +1,12 @@
+PLS-2 my first PL/SQL program:
+https://www.youtube.com/watch?v=Yb0VluItpUw
+
+DECLARE(optional)
+  variables, cursors, userdefined exceptions
+BEGIN(Mandatory)
+  -SQL stmts
+  -PL/sql statemnts
+Exception(Optional)
+  Actions to perform when errors occur
+END;(Mandatory)
+/

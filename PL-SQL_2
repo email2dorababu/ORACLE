@@ -10,3 +10,14 @@ Exception(Optional)
   Actions to perform when errors occur
 END;(Mandatory)
 /
+
+DECLARE
+  bonus NUMBER(8,2);
+  emp_id NUMBER(6):=100;
+BEGIN 
+  select salary*0.10 INTO bonus from employees where employee_id=emp_id;  -- see here it is normal equal condition to compare
+  -- but := for colon equal to for assigning values.
+Exception
+  when NO_DATA_FOUND then 
+    null;
+END;

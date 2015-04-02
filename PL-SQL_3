@@ -1,0 +1,34 @@
+https://www.youtube.com/watch?v=-3sJEyJO3Xc
+Character sets and lexical units:
+
+
+Pl/sql engine supports 4 diff character sets 
+letters(A-z and a-z)
+digits (0-9)
+symbols(%,& +,-)
+white spaces(carriage returns etc)
+
+Excepts the back quotes all other types are supported by pl/sql block
+The diff characters combinely make a work and that is called lexical units.
+4 diff types of lexical units.
+1) 20+ delimiters,
+2) Identifiers (variables and reserverd keyworkds) 
+ ruls are - 1. can contain upto 30 characters
+            2. must begin with an alphabetic char 3. con contain numerals, dollor sign underscores and number signs
+            4.cannot contain characters such as hyphens , slashes and spaces 5.should not have the same name as a database table column name
+            6.should not be reserverd words.
+3) literals - exlicit numeric char, string or boolean value not represented by identifier.    
+'hello world' TRUE 'Z",6 -14 etc
+4) Comments
+
+Let us identify the lexical units:
+
+DECLARE  - I
+count PLS_integer:=1 count is I and  pls is identifier , := is delimiter  and 1 is numerical literal
+BEGIN -I
+ LOOP -I
+  DBMS_OUTPUT.PUT_LINE('A'); + is delimiter and 'A' is char literal etc
+  
+
+            
+            

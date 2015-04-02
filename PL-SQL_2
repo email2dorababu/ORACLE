@@ -21,3 +21,55 @@ Exception
   when NO_DATA_FOUND then 
     null;
 END;
+
+--------
+begin
+  -- to print we need a function
+  dbms_output.put_line('Hello World");
+end;
+
+you have do the below action.
+>Set serverouotput on
+----
+declare
+ x number;
+ bonus number;
+begin
+select sal into x from emp where empno=7839;
+bonus:=x * 0.01;   -- here it is assignment operator.
+  -- to print we need a function
+  dbms_output.put_line('bonus is ' || bonus);
+end;
+------
+
+Different types of blocks
+1) annonymous block 2) Procedure & name 3)Function & name
+procedure name is  procedure may or maynot return data.
+begin
+end;
+function name return datatype is 
+begin end;
+---------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

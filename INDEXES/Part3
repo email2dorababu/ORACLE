@@ -1,0 +1,167 @@
+Anindya Das:
+When BTree index should be used?
+When optimizer will use Btree index.
+Index clustering factor
+Influence of "parameter optimizer_Mode", and "Optimizer_index_cost_adj" on using BTree index
+-------------------------
+When to use B*Tree Index:
+Oracle Optimizer will decide when to use index or not, based on
+1.Table size
+2.available statistics
+3. Index clustering factor
+4. Several db parameters like 
+	i)optimizer_mode
+	ii)Optimizer_index_cost_adj
+	iii)Optimizer_index_caching etc
+5. Other factors
+
+But mainly Btree index are used when,
+1) fetching very small fraction of rows from the table using index.
+	Btree indexes should be created on the columns that are frequently used in predicates, join conditions of query.
+2)You are fetching may/all rows of a table and the index can be used to fetch data instead of the table(doesn't need to go to table like index fast full scan).i.e you are selecting only the indexed columns.'
+
+TABLE ACCESS BY INDEX ROWID - is oracle scan the index and reads index leaf nodes and gets row id and uses the row id to read the data block from the table segment.
+This is very efficient metod when you are accessing a small % of rows. But when amount of rows are large, it is not efficient.
+% is 2-3% or 5%, but fact table , it can be upto 20-25%, then optimizer will use the index and index clustering factor has significant impact on this.
+
+-----
+Table access by index row id: 
+The index is sorted by index key. But data Blocks are stored randomly , scattered in heap.
+Therefore when oracle does a table access by index rowid, it will not access the table in sorted order, it will not go to block 1, block 2 etc, and it will search for blocks that are scattered in the heap.
+ex: it might go to block 10, then block 533 ,777 and again block 10. It will do a 'n' number if "table access by index rowid" to get each & every row and to do it , it will have to read & reread blocks.
+
+There will be lots of scattered, single block read from here & there in table segment.
+
+Typically in a THIN table a single block will hold more no of rows, while in a FAT table, a block will hod less no of rows.
+
+EX- suppose DB_BLOCK_SIZE=8k.
+Thin table has 1 million rows, and each row is 80 bytes.
+Then there will be 8k/80=100 rows per block. means the table has 100*100 =10000 blocks.
+if read 2lakh rows read via index , then there will be 2lakh "table access by row id" operations.
+Oracle will read the blocks 2lakh times to execute this query. But there are only 10k blocks in the entier table. If the indexed columns data that you are fetching is scattered in all 10K blocks, then it will read&Reread 1 table block on an average 20 times. So in this case optimizer will prefer FullTableScan than using the index.
+
+Now incase of a FAT table, that have 1 million rows, each row is of 1600K then, each block stores 5 rows and no of blocks will be 2lakh. If u are accessing 2 lakh rows via 2lakh "TABLE ACCSS BY ROWID",  in an average you read block once, there will be lesser no of rereading blocks. So optimizer think about using the index.
+But this is a rough measure, and this is actually how it works.
+Although index clustering factor have a great impact on this.
+
+
+Gather the statistics: on FAT_EMP and THIN_EMP.
+BEGIN
+	SYS.DBMS_STATS.GATHER_TABLE_STATS(
+	OwnName => 'SYS'
+	,TableName =>'FAT_EMP'
+	,Method_Opt => 'FOR ALL COLUMNS SIZE AUTO'
+	,Cascade => TRUE);
+END;
+/
+gET DETAILS FROM DBA_TABLES.
+select TABLE_NAME,BLOCKS,NUM_ROWS,NUM_ROWS/BLOCKS "ROWS PER BLOCK" FROM DBA_TABLES
+WHERE TABLE_NAME IN ("FAT_EMP","THIN_EMP");
+
+NOW fetch rows 2% of rows from table:
+select * from FAT_EMP where empid<2000;
+ select * from THIN_EMP where empid<2000;
+
+ here both the cases index range scan and table access by index rowid. index being used.
+ 
+ Now fetch 5% of rows.
+ select * from FAT_EMP where empid<5000;
+ select * from THIN_EMP where empid<5000;
+
+Now here for thin emp table index is not being used
+for fat table index is being used.index range scan and table access by index rowid. index being used.
+
+So the % of rows have huge impact.
+index clustering factor also have a buge impact on using the index.
+
+--------
+index clustering factor
+----
+ 
+Index clustering factor is a measure that indicates “how many adjacent index keys” do not refer to the same data block in the table. It compares the order of the index with the degree of disorder in the table.
+If the clustering factor is high, then oracle db performs a relatively high no of I/O during index range scan. The index entries points to random table blocks, so the db may have to read and reread the same block over and over again to retrieve the data pointed to by the index.
+If the clustering factor is low, then oracle db performs a relatively low no of I/O during a large index range scan. The index keys in  a range tend to point to the same data block, so the db does not have to read and reread the same blocks over and over. So Low clustering factor is a good indicator of good index.
+The smallest possible value of clustering factor will be same as the no of table blocks. And the largest possible value will be the same as the no of rows in the table.
+If the data in the table is randomly scattered, the clustering_factor will be high& tend to come out close to the no of rows in the table. If the order of data in table matches with the order of index key in index then clustering factor will be low.
+POC:
+Create table ORGANIZED(COL1 INT,COL2 VARCHAR2(200),COL3 VARCHAR2(100));
+BEGIN 
+FOR I IN 1 .. 100000
+LOOP
+INSERT INTO ORGANIZED VALUES(I,DBMS_RANDOM.STRING(‘X’,10),DBMS_RANDOM.STRING(‘Y’,10));
+END LOOP;
+COMMIT;
+END;
+/
+ALTER TABLE ORGANIZED ADD CONSTRAINT ORGANIZED_PK PRIMARY(COL1);
+The above table, the data is organized based on the col1, and the index is organized, because the table have sequential values for col1.
+Now we create a disorganized table.
+CREATE TABLE DISORGANIZED AS SELECT  COL1,COL2,COL3 ORDER BY COL2;
+ALTER TABLE DISORGANIZED ADD CONSTRAINT DISORGANIZED_PK PRIMARY(COL1);
+The above table is disorganized on the col1. Because the order of col2 of organized table is random.
+Gather the statistics.
+BEGIN
+	SYS.DBMS_STATS.GATHER_TABLE_STATS(
+	OWNER => ‘SYS’
+	,TABLENAME=>’ORGANIZED’
+	,CASCADE=>TRUE);
+END;
+/
+BEGIN
+	SYS.DBMS_STATS.GATHER_TABLE_STATS(
+	OWNER => ‘SYS’
+	,TABLENAME=>’DISORGANIZED’
+	,CASCADE=>TRUE);
+END;
+/
+
+Now 
+select IND.INDEX_NAME, IND.TABLE_NAME, IND.CLUSTERING_FACTOR, TAB.NUM_ROWS, TAB.BLOCKS
+FROM ALL_INDEXES IND, ALL_TABLES TAB
+WHERE IND.TABLE_NAME=TAB.TABLE_NAME
+AND IND.TABLE_NAME IN(‘ORGANIZED’,’DISORGANIZED’);
+For organized table clustering factor is 440 for disorganized table the factor is 99788. Rows are 1 lakh.
+The clustering factor is close to no of tables.
+Now fetch 0.1% rows ie col1<100; both cases index is used
+Now fetch 1% of records, disorganized table it is doing the full table scan. 
+From the above you can understand how crucial  is the index clustering factor.
+Incase of organized table, even if you fetch 10 or 15% rows, oracle uses index.incase of disorganized table , even for 1%, it is not using the index.
+Other factors on which have crucial effect on optimizer will use the index or not:
+Most crucial is : OPTIMIZER_MODE parameter, OPTIMIZER_INDEX_COSTADJ
+OPTIMIZER_MODE ‘s are ALL_ROWS(default mode in oracle 11g), FAST_ROWS,FAST_ROWS_N , The 3 are related to cost based optimizer.
+ALL_ROWS is default optimizer mode. Then the optimizer will attempt find an execution plan to return all the rows in the shortest possible time.
+ALL_ROWS mode is designed to minimize computing resource & provide best throughput.
+If the Optimizer mode is set to ALL_ROWS,then CBO will favor full table scan compared to index scan as the index scan is an additional IO.
+FIRST_ROWS: of the optimizer_mode parameter is set to FIRST_ROWS, the optimizer will attempt to find an execution plan to return first row of a result set as fast as possible.
+This mode always (blindly ) Raleigh on index scan over FTS, evenif the FTS is better option.(problem).depricated in 9i. problem is it blindly uses the index, eventhough FTS faster.
+FIRST_ROWS_N: introduced in Oracle 9i, the Number N can be 1,10,100,or 1000.
+Usign first_rows(n) hint, the number ‘n’ can be any positive whole number.
+The first_rows_n mode instructs the optimizer to choose a query execution plan that minimizes the response time to produce first N rows of query result & it also favors index scan to access table row. It is useful in case of interactive front end/web app. Here want to view first 10 rows or 100 rows, you are not interested in whole result set.
+POC:
+>Show parameter optimizer_mode    -> here the default value is ALL_ROWS.
+>set autotrace on
+Say a table containing 2 lakh rows, and created Primary key on emp id and gathered the statistics.
+To fetch 1 laksh rows (50%) when the optimizer mode is ALL_ROWS, then oracle is doing full scan.
+When the optimizer mode is set to first_rows;
+Alter session set optimizer_mode=first_rows;
+Select * from HR.T_EMP where employee_id<100000;   now the optimizer is choosing the index.
+Even for 19000 rows it is using index range scan, nomatter there are high I/Os.
+Consistent gets are more!!!!! This was one disadvance over all_rows.
+Alter session set optimizer_mode=first_rows_100;
+To get 50% of rows it is uing the index, the cost associated given in the execution plan is for first 100 rows. Not for all the 100000 rows. This is disadv over all_rows even when the allrows is faster.
+First_rows and first_rows_n oracle uses index even thout the full table scan is fast.
+-------
+Impact of OPTIMIZER_index_cost_adj.(it is a database initialization parameter)
+>show parameter optimizer_index_cost_adj. default value is 100. You can change the cost of table access through index scans.
+Valid values goes from 1 to 10000, 1 to 10k. default is 100.
+By setting adj Values greater than 100 make index scans more expensive and favors full table scans.
+By setting adj Values less than 100 makes index scans less expensive & makes index scan more favorable.
+If you change the cost_adj value, will see what happens.
+>alter session set optimizer_index_cost_adj=20;  i.e to a lower value.
+Say now I am accessing empid<70000;70K  i.e 30% of 2lakh data, it is using the index.
+Now set it to default value 100;
+Now the same 30% of the data, it is doing the full scan.
+Now  empid<15000 15K,  7.5% data, it is using the index for adj value 100.
+Now we set the adj value 400, for 7.5% of data it uses the full table scan. i.e verified.
+i.e the adj can influence the optimizer to use the index or not. Adj values can influence the optimizer.
+

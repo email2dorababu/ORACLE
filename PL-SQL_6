@@ -32,3 +32,30 @@ Begin
   y:=to_date('10-01-2010','DD-MM-YYYY');
   dbms_output.put_line(add_months(y,1));
   end;
+------------
+declare
+x number;
+begin
+ x:=round(last_day(sysdate)-trunc(sysdate,'mon'));  -- here we are using round,last_day,and trunc, three sql functions.
+ 
+ DBMS_OOUTPUT,put_line(x);
+ end;
+ ------
+ v_b BOOLEAN:=false;
+ v_b:=extract(year from sysdate)>2000;
+ if v_b then 
+ put_line("21st cen");
+ 
+ --
+ age DATE;
+ current_year NATURAL;
+ age:= to_date(12-jan-2090','DD-MON-YYYY');
+ current_year:=to_number(to_char(age,'yy');
+ DBMS_OUTPUT.PUT_LINE(current_year);
+ Here todate conversion function , to_number to get a character to a natural number.
+ 
+ Summary:
+ What ever almost SQL functions can be used in PL?SQL. except decode and group functions. not allowed in pl/sql funcs.
+ however you can use all sql functions in sql statements in plsql block.
+ 
+ 

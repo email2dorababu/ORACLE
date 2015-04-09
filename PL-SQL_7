@@ -1,1 +1,62 @@
 COntrol Sturctures
+Why we need control sturctures in any programming language?
+
+Conditions/Selection control -->Take alternative actions depending on circumstances(IF then else)
+and to choose among several values(CASE).
+
+There are 3 ways we can implement selection.
+1. Selection  (here in this video we explain Selection)
+2.Iteration
+3.Sequence
+---------
+See the oracle database reference
+------
+
+Simple IF-Then statement:
+
+if sales>(quota+200) then
+  update employees set sal=sal+bonus
+  where emp_id =emp_id
+
+end if;  -- note that here we have to give a semicolon.
+
+IF-THEN-ELSE statement.
+IF  then
+ELSE
+END IF;
+NESTED IF-THEN-ELSE statement:
+IF then
+else
+    IF then
+    else
+    end if;
+end if;
+
+The above is little difficult to write and odd looking. and not good programming practice.
+for thsi oracle came up with:
+IF-THEN ELSIF statement
+
+if then
+elsif then
+else
+end if;
+extended if-then statement
+if then
+elsif then
+elsif then
+elsif then
+else
+end if;
+
+---------------------------------
+CASE statememt- like if statement, selects one squence of statements to execute.
+However to select the sequence the case statement uses a selector rather than multiple boolean expressons.
+declare
+begin
+Case grade
+when 'A' then 
+when 'B' then
+else 
+end case;
+end;
+/

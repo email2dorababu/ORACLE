@@ -6,3 +6,19 @@ begin
   x:=5;   -- this is the pl/sql expression
   x is operand , := is operator and 5 is operand.
 end
+
+TYPES of Operators: 5 types:
+Concatenation Operator
+Arithmatic Operator
+Logical Operator
+Comparision Operator
+Exponentiation Opertor
+-------------
+Operator precedence:
+exponential>identit & negation>mul&Div>add,sub,concati>comparision(<,>is null,like,between, in>logical negation(NOT)>conjunction(AND)>inclusion(OR).
+
+ex: 5+12/4 =8 and 12/4+5=8
+8+6/2=11, (8+6)/2 = 7 here parenthesis takes precedence.
+
+If by default not assigned to a pls variable it's value is null.
+Completed:

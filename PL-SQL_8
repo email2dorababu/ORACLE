@@ -65,3 +65,13 @@ select count(emp_id) into emp_count from table;
 for i in 1..emp_count LOOP  here specify the upper bound at runtime
 END loop;
 
+-----
+You cannot assign anything to the internal variable defined in the for loop by oracle.
+i:=5 inside the for loop will give error.
+
+
+FOR i in 12..10 LOOP is not possible. you should use REVERSE.
+AFter the END LOOP; the i value is undefined.
+------------------------
+COMPLETED.
+using the iteration and seletion control you can make ur program robust.

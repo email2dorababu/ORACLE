@@ -24,3 +24,7 @@ END LOOP;
 
 CONTINUE: statement: Exit statement will take you to next line of END LOOP.
 The reverse is continue.COntinue will take you to the begennig of the loop. i.e next line of LOOP.
+
+EXIT -> line next to END LOOP;
+CONTIUE -> Line next to LOOP
+Similar to EXIT WHEN you have CONTINUE WHEN.

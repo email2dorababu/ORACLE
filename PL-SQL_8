@@ -1,1 +1,26 @@
+ITERATION:
+Question: find out square of numbers from 1 to 10:
 
+Basic structure of Iteration in oracle is LOOP.
+
+LOOP
+END LOOP;
+
+The statements inside the above will run indefinitely.
+You have to give the condition when you want to come out.otherwise you never come out of loop.
+
+LOOP
+IF x>3 then
+  EXIT;
+  END IF;
+END LOOP;
+When ever control hits exit then it simply goes to the next statement after END loop.
+
+you can write the same above program with EXIT WHEN clause.
+
+LOOP
+ exit when x>3;
+END LOOP;
+
+CONTINUE: statement: Exit statement will take you to next line of END LOOP.
+The reverse is continue.COntinue will take you to the begennig of the loop. i.e next line of LOOP.

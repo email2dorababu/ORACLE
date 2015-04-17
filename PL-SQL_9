@@ -1,1 +1,20 @@
-hi
+Retrive data using Select statement:
+(cursors etc)
+
+Declare 
+v_name VARCHAR2(20);
+v_sal emp.sal%TYPE;
+BEGIN
+  select ename,sal
+  into v_name,v_sal
+  from emp;
+  DBMS_output.put_line('Emp' || v_name );
+  EXCEption
+  when no_data_found then
+    dbms_output.put_line("no emp matched");
+    when too_many_rows then
+      dbms_output.put_line("more than one emp");
+    end;
+    
+    here in the above query doesn't have where clause, so it goes to exception now.
+    To handle multiple rows, we have a solution.

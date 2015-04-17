@@ -39,18 +39,50 @@ Until i am done with all the rows , i will fetch the data one by one.
   select empno,ename
   from emp;
  begin
-  open c1;
+  open c1; --
     loop 
-      fetch c1 into v_eno,v_name;
-      exit when c1%NOTFOUND;
+      fetch c1 into v_eno,v_name; --
+      exit when c1%NOTFOUND; --
       DBMS_OUTPUT.PUT_LINE(TO_CHAR(v_eno) || ''|| v_name);
-    end loop;
-    close c1;
+    end loop; 
+    close c1; --
   end;
  
+ Oracle provides alternate way of handling the lifecycle of cursor.it is CURSOR FOR LOOP.
  
+ The cursor for loop simplifies the code.
  
+ declare
+ cursor c1 is
+ select ename,sa1
+ from emp;
+ begin 
+ for rec in c1 loop
+  dbms_output.put_line('Emloyee' || rec.ename || 'has a salary of '|| rec.sa1);
+  END loop;
+  end
  
+ in the For loop, a temporary variable 'rec' is created , it contains ename and sa1.
+ and the for loop implicitly going to open and fetch the first row.
+ we access the data by composite data type 'rec'.
+ Then the for loop automatically exists when the rows are over.
+ 
+ CURSOR ATTRIBUTES:
+  what are cursor attributes?
+  the cursor creates four variables they are 1.c1%ISOPEN c1 is the name of the cursor 
+  so oracle creates a variable c1%ISOPEN variable. boolean variable
+  2.c1%found 3.c1%notfound 4.c1%rowcount 
+  
+  c1%isopen is true after open c1;
+  if afterthe cursor is open and the cursor fetches a row then c1%found is true , c1%notfound is opposite of it.
+  ex:when the query returns no row, then c1%found is false(incase of no resultset query)
+ c1%rowcount tells me how many rows i fetched
+ after fetch , this c1%rowcount increments.
+ BY default oracle creates the above 4 variables.
+ 
+ implicit cursors. (sql statement)
+ and one more imp is , when you are using delete from emp; then the sql%rowcount returns the no of rows affected,
+ this is very imp and you can print it.
  
  
  

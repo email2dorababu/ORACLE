@@ -1,1 +1,50 @@
-hi
+CURSOR PARAMETERS:
+
+instead of hardcoding the values in cursors, and to avoid writing mutiple cursors, we use crusor parameters.
+to give the value at the runtime.
+
+Parameterized cursor or cursor parameters we use.
+
+DECLARE
+  cursor c1(v_deptno NUMBER) is --declaring the v_deptno and its datatype.
+    select ename,sal
+    from emp
+    where deptno=v_deptno;    -- here i put v_deptno which is cursor variable here.
+    begin 
+      for rec in c1(10) loop  -- here i give the value of the parameter. now the select query changes.
+        dbms_output.put_line()
+        end loop;
+    end
+    
+    ---- now one mor equestion is first print department no and then employees in that deplartment. this repeated 
+    for all departments.
+    
+    sol is to : first cursor to fetch all departments and second cursor is parameterised where we pass the department no
+    as a parameter to the second cursor were i fetch the employees.
+    
+    declare
+    cursor c_dept is 
+    select distinct deptno
+    from dept;
+    
+    cursor c1(v_deptnp number) is 
+    select ename,sa1
+    from emp
+    where deptno=v_depto;
+    
+    begin
+      for dept_rec in c_dept loop
+       dbms_output.putl_line(... || dept_rec.deptno);
+       for rec in c1(dept_rec.deptno) loop
+        dbms_outpur.put_line('emp:|| rec.ename || has sal || rec.sal);
+        end loop;
+        end loop;
+      end;
+    
+    
+    
+    
+    
+    
+    
+    

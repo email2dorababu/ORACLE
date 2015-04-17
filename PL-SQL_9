@@ -18,3 +18,43 @@ BEGIN
     
     here in the above query doesn't have where clause, so it goes to exception now.
     To handle multiple rows, we have a solution.
+
+What i do first is , i declare a area which i call as private area,where i can store data temparorily.
+What ever is ur query,get this into the private area. Then i send the data from the private area to the temp variable one
+at a time. once i fetch the data i can manipulate what ever i want.
+Until i am done with all the rows , i will fetch the data one by one.
+ The private are is callued CURSOR.
+ 
+ By using cursor i can solve the problem of query returing multiple rows.
+ 
+ Life cycle of cursor:
+ Declare cursor -> creating a private area with a name.
+ next state is OPEN, when ever i open the query executes and all the data is fetched to the private area
+ after that i FETCH. Fetch will get the first row in to the variables.
+ I will fetch until the cursor is EMPTY, i will close the cursor once the cursor is empty.
+ 
+ DECLARE
+ 
+ cursor c1 is 
+  select empno,ename
+  from emp;
+ begin
+  open c1;
+    loop 
+      fetch c1 into v_eno,v_name;
+      exit when c1%NOTFOUND;
+      DBMS_OUTPUT.PUT_LINE(TO_CHAR(v_eno) || ''|| v_name);
+    end loop;
+    close c1;
+  end;
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 

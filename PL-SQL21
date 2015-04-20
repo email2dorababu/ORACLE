@@ -34,3 +34,21 @@ annoymous block every time parsed.
 and there will be no network latency for the stored programs.perforamce of sp is much better than unnonymous block.
 Integrity.
 
+HOW to develop a STORED PROCEDURE:
+------------------------------
+we need a editor to write code.
+using sql plus , you need to load the source code to database.
+the db compiles the code. if successful compilation, you can see errors any by "SHOW ERRORS".
+Once the compilation is succesful we will have a parsed version of code.
+Users can esecute the parsed code.
+
+
+
+
+
+
+
+
+
+
+

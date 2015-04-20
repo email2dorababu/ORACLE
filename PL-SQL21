@@ -1,1 +1,36 @@
-Stored Procedure
+Stored Program units:
+
+user1 say writes a annponymous block, and submits The annonymous block will go to database.
+user 2 wants the same code as user1, he can ask user 1 to give the code.
+what happnes when many users who wants to run same code again & again. 
+Either we have to depend on U1 to get the code.
+----
+Now say the user 1 has modified the piece of code say v2.
+now others users wont get consistent results.
+Now when ever the user modify the code, it is difficult to maintain the code.
+Because all of them are running their individual copy.
+---
+How about storing the code inside the database.
+User1 creats and stores the pl/sql program units with name p1.
+other users just need to check p1 is there and can use it.
+There will be a centralized copy. 
+Since we are storing the code in db, they are called stored program units.
+These are 3 types.
+Procedure 
+function 
+package
+
+All stored programs have a neem, 
+can take param and return param
+they can be stored in data dictionary
+all users can call the sub programs.(depends on the security/access)
+
+Advantages:
+Easy maintanance
+Security (if u have a privilege(execute) u can run else you cannot)
+no security mechanism for a annonymous block
+Performance: The pl/sql code is already parsed and stored in db. firstime when we create the procedure, it is parsed.
+annoymous block every time parsed.
+and there will be no network latency for the stored programs.perforamce of sp is much better than unnonymous block.
+Integrity.
+

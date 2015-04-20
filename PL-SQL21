@@ -42,8 +42,16 @@ the db compiles the code. if successful compilation, you can see errors any by "
 Once the compilation is succesful we will have a parsed version of code.
 Users can esecute the parsed code.
 
+SAMPLE
+create proceduere helloworld as
+x varchar2(20);
+begin
+x:="hello world';
+dbms_output.put_line(x);
+end;  -- imp semicolon after begin and / backslash at the end of the program.
+/
 
-
+SQL>
 
 
 

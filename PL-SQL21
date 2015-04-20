@@ -51,7 +51,23 @@ dbms_output.put_line(x);
 end;  -- imp semicolon after begin and / backslash at the end of the program.
 /
 
-SQL>
+SQL> @c:\tep\Helloworld.sql;
+
+If the procedure compiled correctly, server outputs 'procedure created'
+sql>set serveroutput on;
+
+sql> execute helloworld;
+Hello world
+pl/sql procedure completed successfully
+
+SQL developer: procedures ->New
+You can use the sql developer editor, and you can write a procedure very easily.
+we have written using note pad and sql developer.
+
+To remove the procedure, 
+sql> drop procedure proc_name
+
+It is better to use "CREATE or REPLACE" , this drops the procedure and recreates the new procedure.
 
 
 

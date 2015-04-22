@@ -1,1 +1,54 @@
-abc
+
+Parameters for PL/sql procedure:
+
+Call pl/sql procedure by
+1) exec helloworld;
+2) from annonymous block
+  begin
+  helloworld;
+  end;
+  
+Is there any way to trasfer data from calling environment to procedure OR from Procedure to Calling environment?
+(Imp - VICE VERSA??)
+3 types of parameters.
+IN mode - we can a send a constant value from the calling env to  the procedure.and the reverse is OUT
+OUT - we can send a value from procedure to calling environment.
+INOUT - we can send a variable from calling env to procedure and in the same variable we can get something back from the procedure to calling env.
+Example for all 3 cases:
+
+create or replace procedure hw( p_name IN varchar2)as
+begin
+  DBMS_out.PUT_line('hello'||p_name);
+end;
+
+exec hw("abc");
+Here just after procedure name we are going  to give a parameter name p_name of IN variable of type varchar2.
+when we are executing the program, a variable p_name is created and the value of p_name is coming from the calling env.
+
+OUT varable:
+
+create or replace procedure hw( p_a IN number, p_b IN number,
+,p_out OUT NUMBER
+)as
+begin
+  DBMS_out.PUT_line('hello'||p_name);
+  p_out:=p_a+p_b;
+end;
+
+declare
+  x number;
+begin
+  hw(7,8,x);
+  dbms_output.put_line(" the result is"||x);
+end;
+/
+
+
+
+
+
+
+
+
+
+

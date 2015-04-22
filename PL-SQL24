@@ -40,8 +40,102 @@ decalre
 How to create a pacakge, advantage, execute the package to get above questions.
 
 To create a pacakge:
-
-
+------------------
+open a note pad or somewhere we write pl/sql code
+ first we need to create a specification,  this contains what procedures/functions this package is going tohave.
+ then we have body where we implement the functons and procedures what ever we declare in the spec.
+ specification is mandatory, body is optional.
+ means we can havea a package that may not have a body. body less package.
+ 
+ To create a spec:
+ create package xyz as 
+  -- just declare the functions and proc
+  function f1(p1 number) return number;
+  procedure p1(p2 number);
+  end xyz
+  This i will run this in sql plus , with this i have created a package specification xyz.
+  
+  Now to createe a pacakage body,
+  create package body xyz as
+  function f1(p1 number) return number
+  begin 
+   ;;;;
+   end;
+   procedure p1(p2 number)
+   begin 
+   end
+   end;
+   
+   i m going to execute this in sql. with this i have create the body.
+   -----
+   Create or replace
+   package demopackage as
+   funciton get_random_number(p_start_num number,p_end_num number)
+   return number;
+   funciton is_even(p_num number) return boolean;
+   procedure insert_number(p_num1 Number,P-num2 number);
+   end demopackage;
+   
+   create or replace 
+   package body demopackage as  -- here you have to give BODY here
+   function get_random_number(...) reuturn
+    l_num number;
+    begin
+     l_num:=
+     
+    return l_num;
+    end get_random_number;
+    function
+    ..
+    ..
+    
+    end ..
+    
+    procedure insert..()
+     
+    if(is_even(my_mum) ..
+    
+    ..
+    end
+    ------
+    
+    
+    once they are available on oracle server you can call by
+    demopackage.insert_number(789,6900);
+    demopackage.iseven(89);
+    demopackage.get_random_number(789,765);
+    
+    you can answer variety of questions. you can insert the values, you can check it is even , you can get random number 
+    between any values.
+    
+    we have modularixed the annonyms blocks. 
+    Advantages:
+    modularity
+    ease of maintanance and readability --(i.e you can read properly , i.e instead of debugging monolithic piece of code
+    you debug one by one.
+    3) very imp feature is CODE HIDING. 
+    You can create a private member of the package.by creating a private meber of the package,you donot need to tell everybody
+    what is the specifications? even you wrap the package content so that nobody can see what is physically going on.
+    you just talk interms of APIs.
+    you tell them that these are the Pis, these are the func, procs, and these are the params you need to put and these are u get.
+    4) overloading functiona and procedrue overloading
+    5) performance. - what is the most imp thing is that when ever you  call the package for the first time ,
+    the entire package body is going to be loaded to the system global area.SGA of oracle.
+    since the compiled code is loaded into the memory, the subsequent calls to proc and func is going to be fast.
+    
+    dbms_random, procedure value.. etc.
+    Package is most imp in pl/sql point of view.that you use it in real life.
+    
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
   
   
   

@@ -1,1 +1,47 @@
-abc
+Problem statemnt:
+you are asked to generate a randon number between 100 and 1000. if the randon number generated is even then insert that vakuye ti a table called to a table even_table,.
+If the genrated number is odd then insert to a table called odd_tab.
+
+now you have written a annonymous block.
+decalre
+ number;
+  begin
+  //code to get a random value
+  x:=dbms_random.value(100,1000);
+  // code to determoine of number is eve
+  if(mod(x,2)=0) then
+  number is even
+  else 
+  number is odd
+  end if;
+  // code tp insert
+  if x is even then
+    insert into even_tab;
+  else insertinto odd_tab;
+  end if;
+  end;
+  
+  now you have another question that test 78 is even or odd.
+  now you will write another annponymouse block with if condition to test that.
+  
+  Now if you observe the above code is doing 3 things.
+  task 1 is generate random number.
+  task 2 is findout if numer is evenor odd
+  task 3 is insert into the table.
+  
+  we can modularize the code into sub programs, given in task1,2,3.
+  if you modularize you can solve both question 1 and question 2.
+  
+  the above is a veyr simple problem.
+  when ever incase of HR applicaiton for big organization(enterprise applications), that can constist of 1000s of subprogram,
+  it is better to organize.
+  say soem 200 subprograms are doing similar kind of functionality/task, then bundle them into a container and that container called package.
+  
+How to create a pacakge, advantage, execute the package to get above questions.
+
+To create a pacakge:
+
+
+  
+  
+  

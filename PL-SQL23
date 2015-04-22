@@ -1,1 +1,78 @@
-abc
+Stored FUNCTIONS:
+why Functions?
+
+in oralce sql we have lot of predefined funcitons like 200+ functions
+all 200+ functions may not work for me , i may have some specific calcuations that oracle defualt not defined.
+For this purpose we hae USER defined/Stored FUNCTIONS.
+
+Functions - benifits of procedures applicable to functions.
+
+Create or replace function helloworld
+(
+p_name in varchar2) return varchar2 as
+v_result varchar2(100);
+begin
+v_result:='Hello'||p_name;
+Return v_result;
+END Hellowword;
+
+in case of procedure you have to define a out variable and you can implement the same functionality.
+
+The IMP advantage is functinons can be accessed in a select function.Procedures we cannot access in select query.
+Ways to execute are:
+1) from annonymous block.
+declare 
+x varchar2(100);
+begin
+  x:=helloworld('ABC');
+end;
+/
+
+2) calling from a sql statement
+select helloworld('xxx') from dual
+
+3) using host variable(sql plus variable similar to a annonymous proc)
+variable x varchar2(100);
+execute :x :=helloworld('abc');
+print x;
+4) calling from another subprogram;
+execute dbms_output.put_line(helloworld('abc');
+
+here the dbms_out.put_line is function. first the inner most is executed and returned to the outer function.
+------------
+Restrictions on functions:
+we can use the functions in DML statements.
+select f1() from dual
+update tab_1 set x=f1();
+----
+
+Restricitons:
+1) select f1() from dual
+I shoould not do commit /roll back inside the function , when you are using it in a select statement.
+f1( commit ; rollback;) -- gives error.
+because by commit/rollback we are terminating the transaction. i cannot terminate the current transaction from a (inside a) function.
+that is not allowed.
+2) when ever you are select a function, you cannot do a update/delete inside the function.
+i.e you are select f1() from table_a;
+and inside the f1() if u update / delete that will give raise to inconsistency.
+
+similaryly,when you are using the function in a update statement, you cannot have select from table T inside the function.
+update T set x=f1(); here you are middle of transaction, some rows are done and you do a select inside the f1 from the statemnt, then that will give data incosistency.
+
+how ever if your function is accessing like from annoymous block then you donot have any problem, you can have select,update
+any thing inside the function.
+ from annonymous block.
+declare 
+x varchar2(100);
+begin
+  x:=helloworld('ABC');
+end;
+/
+you can always update or selec from the above case.
+because of these constraints, i.e if u want to do commit/rollback or update go for a stored procedure not a function.
+
+
+
+
+
+

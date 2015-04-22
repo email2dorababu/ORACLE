@@ -42,6 +42,83 @@ begin
   dbms_output.put_line(" the result is"||x);
 end;
 /
+OUT is going to send some value to the calling env from procedure.
+IN is goign to send some value from the calling env to procedure.
+P-out is output variable. in the calling env we are creatign a variable x, and the result is collected in x.
+since p_out is output variable , we are collecing the variable in x.
+when the control comes back from proc to calling env,the value is copied.
+before hw(7,8,x); x is null , after this value is 15.
+
+create or replace procedure hw( p_x IN OUT NUMBER)as   (IN OUT) not inout
+begin
+  p_x:=p_x+3;
+end;
+
+declare
+  x number;
+begin
+x:=15;
+-- here x is 15
+  hw(x);
+  -- here x is 45
+  dbms_output.put_line(" the result is"||x);
+end;
+/
+
+FORMAL and ACTUAL parameters:
+----------------------------------
+inside the procedure the p_a,p_b,p_c are formal parameters.
+The parameters in calling env hw(7,8,x) are actual parameters. this is just a naming convention.
+
+How to pass the parameters:
+--------------------------
+3 ways to parameters
+method 1: positional hw(7,8,x) first go to p_a,second to p_b, 3rd so on.
+Method 2:
+hw(p_b=>7,p_b=>8,p_c=>x) here what ever is the formal parameter send like
+formal paramer and an arrow => and the value.
+Here i do not need to obey any posinal rule.
+Here the advantage is that we do not need to remember the position and more readable.
+Method 3 is combinational. 
+hw(7,p_c=>x,p_b=>8) here it is mixed, first value goes to p_a.
+but mostly we use method 2, which is more readable.
+
+Real life situation.
+-------------------
+create or replace procedure raise_sal
+(p_empno IN number,p_newsal OUT NUMBER)
+as 
+  v_job emp.job%TYPE;
+  v_sal emp.job%TYPE;
+  v_raise NUMBER(3,2);
+BEGIN
+  select jon,sal into v_job,v_sal from emp where empno=p_empno;
+  case when v_job='MANAGER' then
+    if v_sal<2500 then v_raise:=.50;
+      else v_raise:=0;
+      end if;
+  when v_job='CLERK' then 
+    if v_sal<1000 then v_raise:=.20;
+    else v_raise:=0;
+    end if;
+end case;
+if(v_raise >0) then
+  p_newsal:=v_sal+v_sal*v_raise;
+  else
+    p_newsal:=v_sal;
+    end if;
+  end;
+  /
+  
+  
+  How to execute the above subprogram?
+  declare   
+    v_newsal number;
+  begin
+    raise_sal(7782,v_newsal);
+    dbms_output.put_line("the new sal is"|| v_newsal);
+    end;
+    /
 
 
 

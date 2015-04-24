@@ -1,0 +1,55 @@
+Visibility rules of package.
+
+what kind of functions,procedures, constraints,variables we can do?
+what we can do and cannot do with variables.
+
+Summarize intutives in packages.
+
+ex: we have a package xyz, with variables.
+
+create package xyz as 
+x number :=10; this is a global variable called pcakage variable.
+function f1
+proc p1
+proc p2
+end
+
+Ii.e variables inside package specification are global variables(package variables);
+then inside the package body we have defined another variable Y called private variable.
+create package body xyz as
+y number; -- here it is private variable. accessedinside package body.
+function f1()
+end f1;
+here the function f1 is a public function.
+and p2,p1 are public procedures.
+procedure p1
+z number; -- here the z is a local variable available only p1.
+begin
+end p1; 
+
+x is accessible outside and inside package BODY.
+y is accessible inside package body.
+z is only accessible inside procedure p1.
+
+procedure p3
+end p3;
+here procedure p3 is special procedure, this is not declaredin package spec.
+procedure p3 is only accessible inside the package body xyz. cannot call outside xyz.
+
+implementation of p1and p2 is must, because they are declared in spec.
+
+
+We see now what is legal...
+you can access x outside the package.
+sql prompt, put a annonymous bloc,
+sql> begin
+d_o.p_l(xyz.x)
+end;
+this print x , becauase it is a global variable
+you cannot do xyz.y here , this si a private variable.it is defined inside  package body.
+this y can only be accessed inside any of functions f1,p1,p2 and p3.
+then , sql prompt , you can execute xyz.f1(), because f1 is a public function.
+you cannot do xyz.p3 because p3 is a private procedure and this p3 is only accessible inside procedure body.
+this si very intutive.
+
+

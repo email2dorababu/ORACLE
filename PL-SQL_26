@@ -1,0 +1,136 @@
+Overloading Subprograms
+
+Let us say we hae emp table and columns are empno,ename, dept etc
+let us say i ask to fetch a record based in emp no or empname or dept id.
+
+Write a function , it is going to take emp no or a emp name or a dept no. and fetches the complete row.
+
+Now the function f1 is declared in package spec f1(p_empno)
+now in package body
+f1(p_eno){
+}
+another function
+f2(p_empname varchar variable)
+and similarly dept no, another function
+query the table based on dept id.
+
+We are here creted 3 functions to fetch from a table, this is for a small table.
+
+Now see all functions are doing fetching from emp table and fetching the row.
+Now why cant we have a one name and we are going to pass diff types of params.
+in once case varchar, another case number.
+
+We write the function,
+
+function get_emp_row(p_empno number return emp%rowtype;
+function get_emp_row(p_lname varchar2(20) return emp%rowtype;
+
+in the package body, 
+function get_emp_row(p_empno numer)return emp%rowtype as 
+x emp%rowtype
+begin
+  select * onto x from emp where empno=p_empno;
+  erturn x;
+  end
+  
+function get_emp_row(p_lname varchar )return emp%rowtype as 
+begin
+  select * onto x from emp where ename like p_lname;
+  erturn x;
+  end
+  
+  Here the functions have same name but the parameters are diffent and the query.
+  
+  I have overloaded the function get_emp_row. it enable you to create tow or more sub programs with same name .
+  the parmeters are called formal parameters. we will change the formal parameters.
+  one is number and other is varchar.
+  
+  now 
+  exec xyz.get_emp_row(10) first function executes
+  exec xyz.get_emp_row('abc') second function executes.
+  
+  We are gpoing to send diff types of formal params. this enables us to flexible ways of invoking subprogram with diff data.
+  this is funciton/proc/subprogrma overloading.
+  this is similar to java/c== but at runtime it is decided to which program unit is going to be executed.
+What cannot be done/restrictions:
+
+f1 ( p_number number) return number
+f1( p_number decimal) return number
+number abd decimal are of same family so it is not legal. not allowd
+f1 ( p_number number) return number
+f2(p p_number number) return varchar
+
+this is also not valid. just the return type difference is not legal
+Bais rule is that , you cannot have formal parameters of same family of datatype.
+---
+Built in ;
+1. to_char(5) gives char representation of 5
+to_char(sysdate, 'format string') = gives date
+the built in functions are highly overloaded.
+and they belongs to a package called STANDARD.
+ex, user defined is called by demopackage.f1
+sstandard package by standard.to_char, but this standard pak\ckage name is not required.
+
+but what we can do is create a package p1 and inside it you define a function to char thsi returns 'hellow'
+now this function is used inside another procedure pr1 inside the same package p1, then the to_char defined in side the package is only called.
+
+ex: create package p1{
+  function to_char{
+    return 'hellow'
+    end to_char
+    
+    procedure p1{
+      to_char(5)  here the local to_char gets the first priference.
+      } 
+      
+      x:=tochar(5) instead of 5 , hello is going to be present in x.
+      
+      How ever if i call STANDARD.to_char(5) inside the same package, thsi callses the standard function and gives 5.
+      
+      this is how you are going to overrid the built in, but generally we dont do that. but yu can do this inside the package.
+      
+      ---------------------
+      FORWARD declaration:::
+      
+      lets see a pl sql package body,
+      proc p1 ]
+      begin
+      inside the proc p1 i m calling p2 and it is defined after p2. the p2 is a private procedure. i.e it doent have the declaration in spec.
+            end 
+     procedyre p2
+     ebgin
+     end;
+     
+Here this is called forwrd reference.
+
+this case the compiler is going to fail.
+you hve 2 options. you declare p2 first then use it. this p1 can know p2 is present
+how ever this is not a good soloution , because lot of times package body may contian 50 to 60 sub progrmas .procs and functions.
+one sol is:
+we do the functions in alphabetical order in a package body.but we never guarentee..
+
+now for this just tell the compiler the proc p2 is exisiting.this si done by just declaring the proc p2
+at the begininig of package body. this is only for private function/procs.
+
+For public procedure , we have give the declaration in package spec.
+the problem occures when  for private sub program , and you are trying  to access the private sub program 
+before it has been defined. in this case compiler is going to give an error, solution is to declare privte program just beginning of  the 
+package body.
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  

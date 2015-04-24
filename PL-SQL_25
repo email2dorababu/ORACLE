@@ -63,6 +63,26 @@ this si the very imp advantage.
 
 Another usecase:
 
-Lets say 
+Lets say we write a annonymous block and x is a variable insdie the block,
+once we finished the block execution it is gone.
+
+What if we want to keep a variable  all across the user session.
+i.e say a user connects a db and wants to execute some thing in db, in sql prmpt.
+If he want to keep the variable across his session, i.e say a constraint that needs tobe kept across the complete session, then how we do is..
+we can create a package with a specification like,
+
+create package abc
+a number;
+b number
+c varchar2()
+end abc;
+
+what we have done here is we just declared global/package variables.
+this is called body less package, its use is , we want to create a variable and persist across the session,
+this variables are kept/modified across the sessin.
+this is a special kind of package body less package. only package specificaiton
+this is all about the visibility rules that you need to understand.
+
+
 
 

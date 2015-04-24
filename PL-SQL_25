@@ -50,6 +50,19 @@ you cannot do xyz.y here , this si a private variable.it is defined inside  pack
 this y can only be accessed inside any of functions f1,p1,p2 and p3.
 then , sql prompt , you can execute xyz.f1(), because f1 is a public function.
 you cannot do xyz.p3 because p3 is a private procedure and this p3 is only accessible inside procedure body.
-this si very intutive.
+this si very intutive.(easy to understand).
+
+This specifically leads us a very interesting thing about hiding the code.
+Lets say we have p3 is very imp, and confidential. what you can do is create it as a private function
+and create a wrapper function or procedure from which you call p3 procedure.
+Another use case is p1,p3 might change, then create them as private functions , then call from some other public fucntion.
+because these are(p1,p2,f1) the functions / procedures you are going to expose to outside world.
+The no of parameters/data types cannotbe chaged. once they are made, they are fixed, i donot waht to chage them.
+however func/procedures which are dynamic , changes put them as a private and create a wrapper function to the outside worlld.
+this si the very imp advantage.
+
+Another usecase:
+
+Lets say 
 
 

@@ -1,1 +1,97 @@
+Bulk Collect and Bulk Bind
 
+If we want to return a single row, we can use scalar or row type variables.
+For fething multiple rows we have to use CURSOR. Declare,Open and fetch the cursor for every row, one by one.
+The loop runs for no of times the rows in the result set.
+
+To fetch the entire column to avarible at once , there will be a substantial improvementin the performace.
+
+The query will be fast,quick. this is the idea behind bulk collect.
+
+DECLARE 
+  type empnoTab is TABLE of emp.empno%TYPE;
+  type enameTab is TABLE of emp.ename%TYPE;
+  l_empno empTab;
+  l_ename enameTab;
+  cursor c1 is 
+    sleect empno,ename from emp;
+  Begin
+    open C1;
+    fetch c1 BULK COLLECT INTO l_empno,l_name;  -- here there is extra words, BULK COLLECT
+    close c1; 
+    
+    for i IN l_empno.FIRST .. l_empno.LAST
+      loop
+        DBMS_OUTPUT.PUT_LINE('emp no is' || l_empno(i) || 'emp name is ');
+      end loop;
+    
+    the bulk collect fetches all the values in to private pl/sql area as a whole at a time.
+    
+    we transfer entire contents into the array(TABLE) using BULK COLLECT.
+    We manipulate using array manipulation.
+    We are traversing using FIRST and LAST, and access data using l_empno(i).
+    
+    BULK COLLECT IS FASTER, this is the only reason we use it.
+    
+    EX:
+    declare
+      type onameTab is TABLE of all_objects.object_name%type index by binary_integer;
+      l_owner onameTab;
+      l_object_name onameTab;
+      
+      cursor c is select owner,object_name
+        from all_objects;
+        
+        l_start number;
+        l_end number;
+      begin
+      l_start:=dbms_utility.get_time;
+        for x in c loop 
+          null;
+          end loop;
+          l_end:=dbms_utility.get_time;
+        dbms_output.put_line('Time for standard Fetch'|| (l_end-l_start)|| 'secs');
+        l_start:=dbms_utility.get_time;
+        open c;
+        loop 
+          exit when c%NOTFOUND;
+            fetch c BULK COLLECT into l_owner,l_object_name;
+            end loop;
+              close c;
+              l_end:=dbms_utility.get_time;
+               dbms_output.put_line('Time for sBulk collect'|| (l_end-l_start)|| 'secs');
+        
+    end;
+    
+    -----------------------------
+    
+    Similarly we can do a bulk bind to insert data into database.
+    
+    DECLARE 
+    TYPE testTab is TABLE of test.a%TYPE index by pls_integer;
+    l_tab testTab;
+    l_start NUMBER;
+    l_size NUMBER;
+    
+    BEGIN
+      l_size :=1000;
+      for i IN 1..l_size LOOP
+        l_tab(i) :=i;
+        end loop;
+        
+        Execute immediate 'TRUNCATE TABLE test';
+        l_start := DBMS_UTILITY.get_time;
+        for i in l_tab.first .. l_tab.last LOOP
+          INSERT into test(a) values (l_tab(i));
+          END loop;
+        DBMS_OUTPUt.put_line('Normal Inserts'|| DBMS_UTILITY.get_time-l_start);
+         Execute immediate 'TRUNCATE TABLE test';
+        l_start := DBMS_UTILITY.get_time;
+        FORALL i in l_tab.first ..l_tab.last    -- here there is no loop, instead FORALL inplace of FOR
+        Insert into test values(l_tab(i));
+        DBMS_OUTPUt.put_line('Normal Inserts'|| DBMS_UTILITY.get_time-l_start);
+        COMMIT;
+        END;
+    
+    
+    

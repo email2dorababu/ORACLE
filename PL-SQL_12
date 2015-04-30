@@ -93,5 +93,49 @@ DECLARE
         COMMIT;
         END;
     
+    Case 1 is going to send 1000 insert statements
+    FORALL (instead of LOOP and END LOOP) take the entire array dump into the database.
+    here in forall only one insert statement.
+    This is called bulk bind , we are going to put entire array in to database. and it is always faster.
+    
+    ------
+    Bulk collect, the values are put into an array.(incase of simple cursor we are defining scalars)
+    The size of the array is determined at run time.
+    
+    --------------------------
+    Onemore thing in CURSOR is , WHERE CURRENT OF clause.
+    
+    DECLARE
+      my_emp_no NUMBER(6);
+      my_jon varchar2(10);
+      my_sal NUMBER(6,2);
+      my_deptno NUMBER(4);
+      CURSTO c1 is select empno,job,deptno,sal from emp for UPDATE;
+      
+  Begin
+    Open c1;
+      loop
+        fetch c1 into my_emp_no , my_job, my_deptno,my_sal;
+          exit when c1%notfound;
+            if my_job='CLERK' THEN
+              update emp set sal=sal*1.02 where CURRENT OF c1;
+            END IF;
+            END loop;
+            END;
+  Here in the update statement, i m updating the row, but the problem is which row to update?
+  The cursor data is in private pl/sql area.
+  The clause WHERE CURRENT OF C1, this updates the current row's salary to 1.02 times,
+  Automatically the emptable salary column is updated. WHile manipulating the cursor we are able to update the base
+  table at the same time.
+  
+  i.e now the table's row is automaticallyy updated to 1.02 times.
+  
+  
+      
+      
+    
+    
+    
+    
     
     

@@ -1,1 +1,74 @@
-abc
+REFerence CURSORs
+
+Prevoiousely we have learnt 
+simple cursor, declared a cursor and used for loop to access the cursor, here we know the query at the execution time.
+Declare 
+cursot C1 is 
+  select ename,sal
+  from emp;
+  begin
+  for rec in c1 loop
+    
+  end loop;
+  end;
+Cursor with parameters: where we donot know the query at declaration, and the query is determined run time.
+we use parameterized cursor. Here we modify the where condition.
+Declare 
+cursot C1(v_deptno NUMBER) is 
+  select ename,sal
+  from emp;
+  where deptno=v_deptno;
+  begin
+  for rec in c1(10) loop
+    
+  end loop;
+  end;
+
+Reference Cursor: it is define one cursor, attach the query at run time to the cursor.
+here refcursor i donot know the query at declare time, only known at run time. i can create the query dynamically at runtime
+based on some conditions/situations.
+Example:
+Here i declare a type, a new type , of a REF cursor;
+and declare a variable of refcursor type.
+DECLARE
+TYPE emp_refcursor IS REF CURSOR;
+  emp_cv emp_refcursor;  
+  emprec emp%ROWTYPE;
+  
+  stmt varchar2(200):='select * from emp';
+  v_deptno NUMBER := 10;
+BEGIN
+  IF v_deptno IS NULL then OPEN emp_cv for stmt;
+    else
+      stmt:= stmt || ' where deptno = :v_deptno;
+      
+      Open emp_cv for stmt Using v_deptno;  --- here we are using the varibale v_deptno.
+  end if;
+  LOOP
+    FETCH emp_cv into emprec;
+    exit when emp_cv%notfound;
+    DBMS_OUTPUT.PUT_LINE(emprec.deptno||'..'||emprec.ename);
+    END LOOP;
+    CLOSE emp_cv;
+    END;
+    
+    Simple cursor - select query is completely known at declare time
+    Parameterized cursor the query is almost defined at declare time
+    Here ref cursor, we donot know even what is the query at all.
+    
+  Now in the above programm emp_cv is the active set contains the employees.
+  and we are going to loop through the cursor, and exit when finished.
+  
+  The ref cursor makes your program more flexible and you can use only one cursor, 
+  you can associate the qeury at runtime and once it is done u can close the cursor and use the same cursor
+  emp_cv again with diff query.
+  
+  Use must use the ref cursor when the select query is compeltely not known at the declaration time.
+      
+
+
+
+
+
+
+

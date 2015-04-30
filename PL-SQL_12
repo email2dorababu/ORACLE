@@ -129,13 +129,8 @@ DECLARE
   table at the same time.
   
   i.e now the table's row is automaticallyy updated to 1.02 times.
+  The same update statement can be written as
+  update emp set sal=sal*1.02 where my_sal='Clerk' this also give the same meaning of WHERE CURRENT OF.
+  so by using this we get rid of the extra where conditions.
+  so by this CURRENT of , we are making the cursor's pl/sql area as active set and can update the table at the same time/ reflects iin the table.
   
-  
-      
-      
-    
-    
-    
-    
-    
-    

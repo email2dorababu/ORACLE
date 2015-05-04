@@ -1,1 +1,36 @@
-abc
+PL/sql Records Data type
+
+PL/sql data types are (Over All view)
+1) Scalar data type (number,varchar,date etc)
+2) pl/sql composite data type (2 types)
+  i) PL/sql records
+  ii)pl/sql Collections (3 types)
+    a) associative array or index by table or pl/sql Table
+    b) Nested Table
+    c) VARRAY
+  
+Here in this tutorial we are going to discuss PL/SQL Records.
+----------
+f we know that we need 5 diff variables, instead of declaring them separately,we can declare a pl/sql records.
+
+Declare
+  TYPE ABC is RECORD of (a number, b date);
+x ABC;
+This ABC is abstract data type which is a combination of number and date.
+Here x is a box and can contain two stocks at a time. box have 2 compartments, one contains number and another contain a date.
+initially both contain NULL.
+
+BEGIN
+  x.a :=5;
+  x.b:='19-Jan-1901';
+  
+END;
+
+here we are packing the data together.
+ex: transport each differently or pack everything in one and transport.
+
+The above is about record datatype. The declartion ABC is like .class and X is like object.
+
+DECLARE
+TYPE rec1_t
+

@@ -68,3 +68,7 @@ DECLARE
   
   Update departments SET ROW=dept_info where department_id=300;
   END;
+
+Please note that while updating a table using the record, donot forget to update a file
+say for ex, if you keep department_name you kept null then the exisign value will be overriden with the null value.
+Here you are updating the eintire row. not individual fields.

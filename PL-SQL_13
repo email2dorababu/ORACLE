@@ -48,3 +48,13 @@ BEGIN
   select ename,empno INTO rec1 from emp where empno=7839;
   DBMS_OUTPUT.PUT_LINE("Emp name"|| rec1.id||'='|| rec1.name);
 END;
+-------------------
+INSERTING a pl/sql Record
+DECLARE
+  empt_info departmemt%ROWTYPE;  //here it a Record.
+BEGIN
+  dept_info.dept_id:=300;
+  dept_info.department_name:='Personal';
+  dept_info.location_id:=1700;
+  INSERT INTO department values dept_info;
+  END;

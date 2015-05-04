@@ -39,4 +39,12 @@ begin
   DBMS_OOUTPUT.PUT_LINE(rec1.name);
   END;
   
-
+--------------
+Selecting into a RECORD variable
+DECLARE
+TYPE recordTyp is RECTORD(name emp.ename%TYPE, id emp.empno%TYPE);
+rec1 recordTyp;
+BEGIN 
+  select ename,empno INTO rec1 from emp where empno=7839;
+  DBMS_OUTPUT.PUT_LINE("Emp name"|| rec1.id||'='|| rec1.name);
+END;

@@ -32,5 +32,11 @@ ex: transport each differently or pack everything in one and transport.
 The above is about record datatype. The declartion ABC is like .class and X is like object.
 
 DECLARE
-TYPE rec1_t
+TYPE rec1_t is REcord(id integer not null :=-1, name varchar2(64) NOT null :='AAA');
+rect1 rect1_t;
+begin
+  rect1.name:='abc';
+  DBMS_OOUTPUT.PUT_LINE(rec1.name);
+  END;
+  
 

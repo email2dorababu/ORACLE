@@ -58,3 +58,13 @@ BEGIN
   dept_info.location_id:=1700;
   INSERT INTO department values dept_info;
   END;
+----------------------
+UPDATING a row Using a Record:
+DECLARE
+  dept_info departments%ROWTYPE;
+  
+  dept_info.department_id:=300;
+  dept_info.department_name:='personnal';
+  
+  Update departments SET ROW=dept_info where department_id=300;
+  END;

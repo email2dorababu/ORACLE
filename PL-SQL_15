@@ -1,0 +1,60 @@
+NEsted Table:
+
+we extend here varray and fidnout where varray failes.
+
+If the rows in the result set becomes more than size of varray, then we cannot use it since we cannot change the size of varray.
+We can go for NESTED TABLE.
+
+Declare
+-- TYPE ABC IS VARRAY(10) OF NUMBER;
+TYPE ABC IS TABLE OF NUMBER; -- see here we donot give size oracle dynamically allocates memory depending on the type fo data you place in the table.
+varray size is fixed. nested table size changes.
+
+v2 ABC;
+cursor c1 is sleect empno from emp;
+v_emp ABC;
+counter NUMBER:=1;
+BEGIN
+  v_emp:=ABC() ; -- here first time you have to initialize this. like creating object.
+  for rec in c1 loop
+  v_emp.extend()
+    v_emp(counter):= rec.emp;
+      counter :=counter+1;
+      end loop;
+    end;
+    
+    Syntax point of view it is same as varray, but size is variable and determined at run time. All collection methods discussed in the 
+    previpouse chapter apply here
+    
+    extend creates a space to store a new value.
+    -------------------------------
+    One interesting thing about nested table and varray is DELETE of element.
+    
+    v1 is nested table and
+    v2 is varray.
+    delcare 
+    type abc is table of number;
+    type pqr is varray(10) of number;
+    v1 abc;
+    v2 pqr;
+    
+    begin
+      v1:=abc(1,2,3)
+      v2:=pqr(1,2,3);
+      v1.delte(1);
+      v2.delete(1);
+      end;
+      \IN varray you cannot delete first or middle elements . 
+      so v2.delete(1) gives error, you can use v2.trim deletes from last
+      Nested table the size is unbounded.
+      so Nested table if you delete a element and it produces a space.
+      so varray is dense. and nested table becomes parse.
+      
+      so when ever you donot know the size of your array then use nested table as temp variable.
+      and you can use all varray collection methods. and your application maintainnace will become easier.
+      
+      
+    
+    
+    
+    

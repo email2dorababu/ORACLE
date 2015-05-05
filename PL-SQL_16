@@ -1,0 +1,12 @@
+Collection type - Index by Table.
+
+we already discussed varray(fixed size) and nested table , which is array unbounded.
+
+Here both the above the index is a number and goes in sequence.
+However we need to store some kind of key value pairs. this kind of data structure , called ASSOCIATIVE ARRAY more popularly known as 
+INDEX by TABLE.
+This stores a key value pair. and this key is unique key.
+
+DECLARE 
+TYPE ABC is table of NUMBER INDEX by PLS_INTEGER; --- means what ever table is created the key is integer and value is number data type.
+TYPE PQR is table of NUMBER index by VARCHAR2(20);

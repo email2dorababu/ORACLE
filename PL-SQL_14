@@ -58,5 +58,28 @@ Begin
       end loop;
       end;
 
+-------------------
+We have predefined built in functions to manipulate COllections like varray etc..
+Built in functions/procedures.
+ex: v2 have 1,2,3
+This is called collection methods.These are used to manipulate collections.
+1.Count/limit  -- v2.count gives me size/no of eleentes in the varray and limit gives the max size of varray.
+2.exists(n) - v2.exists(1) if the first element exits or not?
+3.First/Last first gives index of first element of varray.v2,last will give me the last element which have value.
+4.Prior/Next. -> v2.prior(2) gives 1. inside brackets is index. v2.next(1) gives 2.
+5. Extend/Trim , by extend we extend the varray.we create a space so that u can allocate a value there.
+v2.trim(1) removes space at the end, now v2.count gives 2.
 
+Declare 
+type ABC is varray(10) of number;
+v1 ABC :=ABC(1,2,3,4,5,6);
+Begin
+DOPL v1.count v1.limit v1lfirst v1.last
+v1.trim(2) removed 2 elements at the end
+for i in v1.first .. v1.last loop
+  dopl(v1(i));
+  end loop;
+  dopl(v1.last);
+  END;
+v
 

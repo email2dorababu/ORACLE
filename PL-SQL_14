@@ -40,7 +40,23 @@ another example;
 Declare
 type abc is varray(10) of number;
 v2 abc;
-cursor
+cursor c1 is select empno from emp where rownum<10;
+v_emp abc;
+counter NUMBER:=1;
+Begin
+  v2:=abc();
+  FOR i in 1..10
+  Loop 
+  v2.extend();
+  v2(i) :=i;
+  END Loop;
+  v_emp:=abc();
+  for rec in c1 loop 
+    v_emp.extend();
+      v_emp(counter):=rec.empno;
+      counter:=counter+1;
+      end loop;
+      end;
 
 
 

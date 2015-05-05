@@ -1,1 +1,46 @@
 
+VARRAY Composite data type.
+
+Lot of cases we need to store a collection of elements, of same data type.
+in other pgm languages it is called array.
+in pl/sql it is callled variable array,VARRAY.
+
+DECLAREW
+TYPE ABC is VARRAY(10) of NUMBER;
+v2 ABC;
+Begin
+  v2(1):=78
+  END
+  
+  First we have declare a VARRAY TYPE of a datatype.
+  here in the dclaration, we have to give maximum size.
+  
+  in the above pgm, it will give error, becase at declaration varray is null.
+  so v2(1) throws exception. We must initialize  it first, (like a constructor.)
+  
+Begin
+v2:=ABC(); this is constructor. the v2 variable is initialized using the system defined constructor, which is the type constructor.
+v2.extend(); this we have to extend, i.e allocate a place where we can put values.
+v2(1):=78.
+If we wnat to allocate another element then we have to extend it again.
+v2.extend();
+v2(2):=10.
+we can go till v2(10) because max size is 10.
+
+aNother  example:
+DECLARE
+TYPE ABC is varray(10) of number;
+v1 ABC:=ABC(1,2,3,4,5,6);
+Begin
+dbms_ouput.put_line(v1(1)); value here is 1.
+end;
+
+another example;
+
+Declare
+type abc is varray(10) of number;
+v2 abc;
+cursor
+
+
+

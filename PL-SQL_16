@@ -8,5 +8,96 @@ INDEX by TABLE.
 This stores a key value pair. and this key is unique key.
 
 DECLARE 
-TYPE ABC is table of NUMBER INDEX by PLS_INTEGER; --- means what ever table is created the key is integer and value is number data type.
-TYPE PQR is table of NUMBER index by VARCHAR2(20);
+TYPE ABC is TABLE of NUMBER INDEX by PLS_INTEGER; --- means what ever table is created the key is integer and value is number data type.
+TYPE PQR is TABLE of NUMBER index by VARCHAR2(20);
+TYPE KML is table of varchar2(20) index by PLS_INTEGER:
+v1 ABC;
+v2 PQR;
+v3 KLM;
+begin
+ v1(1) :=1;
+ v1(10):=23;
+ v3(18):='Newyork';
+ v2('A'):=10;
+
+END
+if you try to insert v1(1) :=100 again, then it will thorws error. also you cannot have key as null.
+This is like a table with key as primary key, but donot confuse with the db table.
+ti is a temporary variable. you can achive all things can be done by nested table and varray with Index by table.
+
+ex: Varray -> use index by table with key as integers and value as your desired data type, you achive the same.
+
+v1.exists(10) gives true. insides brackets is Key.
+v2.count gives 1 because we have only one element.
+
+similarly you can have all collecton mehtods like prior, next, prior(key) take you to next key.
+you can navigate by using prior and next.
+Remember you cannot have v3.limit, because it is unbounded.
+you can od dlelete, v3.delete(key value)
+
+Exists,count,first last,prior and next, delete : these are the collecton methods to manipulate the collections.
+-----------------------
+BEGIN
+  TYPE ABC is TABLE of DATE INDEX BY PLS_INTEGER;
+  v1 ABC;
+BEGIN
+  for i in 1..10 LOOP
+    v1(i):=sysdate +i;
+    END LOOP;
+  if (v1.exists(11)) then
+  dopl('elemnt exists');
+  else
+    dopl('element not exists');
+  end if;
+  
+  dopll(total elements||v1.count);
+  v1.delete(7);
+  dopl(totall elements||v1.count;
+  v1.delete(8,10);
+  dopl(totall elements||v1.count;
+
+for i in v1.first ..v1.last loop
+dopl(v1(i));
+end loop;
+dopl(next index after 4 is || v1.next(4));
+dopl(prior index after 4 is || v1.prior(4));
+end;
+--------
+Declare 
+  type abc is table of varchar2(20) index by varchar2(1);
+  v1 abc;
+  x varchar2(1);
+  begin
+    v1('A'):='Apple';
+    v1('c'):='cat';
+v1('b'):='bat';
+v1('r'):='rat';
+x:='A';
+Loop
+dopl(v1(x));
+x:=v1.next(x);
+exit when x is null; 
+end loop;
+end;
+
+Now tell me above how yuou are going to loop through?
+because in the prev ex, the keys are numbers so you can traverse, but kere the keys are varchars.
+
+you are first assiging first key value to x and assiging the v1.next(x) into x and printing v1(x).
+here your first and last colleciton methos are not going to work.
+
+----------------------
+IMP:
+Declare 
+type abc is table of emp%ROWTYPE index by PLS_integer;
+-- here the values are record and key is index, the record is type of empolyee table row/record type.
+v1 abc;
+x number;
+y emp%ROWTYPE;
+begin
+  select * BULK COLLECT into v1 from emp;
+  x:=1;
+  Loop
+    dopl(v1(x).ename);
+    x:=v1.
+  

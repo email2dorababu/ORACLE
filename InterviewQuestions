@@ -7,3 +7,12 @@ Max Number of columns that can be in a Table: 1000 columns
 Max Number of columns that can be in per Index:32 columns
 Max Number of columns that can be in per Bit map Index:30 columns
 Max Number of Constraints per Column:Unlimited
+Max Number of Levels in Subquery : in From clause top level query unlimited, Where clause it is 255
+Max Number of columns in a Partition Key : 16 Columns
+Max Number of partiotions per table Or per Index :1024K - 1
+Max Number of Rows per table : Unlimited.
+Max Number of Tables per DB : Unlimiterd.
+Max Number of Tables per CLUSTERED TABLE : 32 Tables
+Max Number of Rows in a Package: The limits typically range from 2000 to 3000 lines of code.
+
+Triggers Cascade level = 32

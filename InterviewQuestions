@@ -1,0 +1,9 @@
+Maximum Logical Limits:
+https://docs.oracle.com/cd/B28359_01/server.111/b28320/limits003.htm#i288032
+
+
+Max Number of indexes per table - unlimited
+Max Number of columns that can be in a Table: 1000 columns
+Max Number of columns that can be in per Index:32 columns
+Max Number of columns that can be in per Bit map Index:30 columns
+Max Number of Constraints per Column:Unlimited
